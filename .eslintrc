@@ -1,0 +1,24 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "useJSXTextNode": true,
+    "warnOnUnsupportedTypeScriptVersion": false
+  },
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true,
+    "commonjs": true
+  },
+  "globals": {
+    "process": "readonly"
+  },
+  "extends": [ "eslint:recommended"]
+}

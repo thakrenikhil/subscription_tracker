@@ -53,7 +53,8 @@ const subscriptionSchema = new mongoose.Schema(
         },
         message: "Start date cannot be in the future",
       },
-      renewdate: {
+    },
+    renewdate: {
         type: Date,
         validate: {
           validator: function (value) {
@@ -68,7 +69,6 @@ const subscriptionSchema = new mongoose.Schema(
         required: [true, "User is required"],
         index: true,
       },
-    },
   },
   { timestamps: true }
 );

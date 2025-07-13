@@ -1,4 +1,4 @@
-import Subscription from '../models/subscription.model.js';
+import Subscription from "../models/subscription.model.js";
 
 export const createSubscription = async (req, res, next) => {
   try {
@@ -6,7 +6,7 @@ export const createSubscription = async (req, res, next) => {
       ...req.body,
       user: req.user._id,
     });
-console.log("User ID in request:", req.user._id);
+    console.log("User ID in request:", req.user._id);
 
     res.status(201).json({
       success: true,
@@ -34,7 +34,7 @@ export const getSubscriptionById = async (req, res, next) => {
     if (req.user._id.toString() !== req.params.id) {
       return res.status(401).json({
         success: false,
-        message: 'You are not the owner of this account',
+        message: "You are not the owner of this account",
       });
     }
 
@@ -45,3 +45,23 @@ export const getSubscriptionById = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteSubscription = async (req, res, next) => {
+  try {
+    const { userId, subscriptionId } = req.params;
+
+    const subscription = await Subscription.findOneAndDelete({
+      _id: subscriptionId,
+      user: userId,
+    });
+
+    if (!subscription) {
+      return res.status(404).json({ success: false, message: 'Subscription not found or not owned by user' });
+    }
+
+    res.status(200).json({ success: true, message: 'Subscription deleted', data: subscription });
+  } catch (error) {
+    next(error);
+  }
+};
+

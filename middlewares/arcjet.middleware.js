@@ -10,13 +10,6 @@ const arcjetMiddleware = async (req, res, next) => {
       contextOverrides: isLocal ? { 'ip.src': '8.8.8.8' } : {},
       requested: 1, // REQUIRED for token bucket rate limiting
     });
-
-    console.log("Arcjet decision:", decision);
-
-
-    console.log("Arcjet decision:", decision);
-
-
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {
         return res.status(429).json({

@@ -63,6 +63,11 @@ const subscriptionSchema = new mongoose.Schema(
           message: "Renewal date must be after the start date",
         },
       },
+      paymentMethod: {
+        type: String,
+        trim: true,
+        default: "Not specified",
+      },
       user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

@@ -17,7 +17,11 @@ export const signUp = async (req, res, next) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({
+        success: "false",
+        message: "User already exists",
+        data: {},
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -44,10 +48,6 @@ export const signUp = async (req, res, next) => {
           username: user.username,
           email: user.email,
         },
-        cretedAt: user.createdAt,
-        updatedAt: user.updatedAt,
-        _id: user._id,
-        __v: user.__v,
         token,
       },
     });
@@ -68,7 +68,7 @@ export const signIn = async (req, res, next) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "User doesn't Exist" });
+      return res.status(400).json({ success: "false", message: "User doesn't Exist",body:{} });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);

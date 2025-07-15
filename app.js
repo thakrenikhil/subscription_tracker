@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.listen(PORT, async () => {
+app.listen(PORT,'0.0.0.0' ,async () => {
   console.log(`Server running at http://localhost:${PORT}`);
 
   await connectToDatabase();

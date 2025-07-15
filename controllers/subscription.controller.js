@@ -23,7 +23,8 @@ export const createSubscription = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      data: { subscription, workflowRunId },
+      message: "Subscription created successfully",
+      data: subscription, //workflowRunId
     });
   } catch (error) {
     next(error);
@@ -32,9 +33,10 @@ export const createSubscription = async (req, res, next) => {
 
 export const getAllSubscriptions = async (req, res, next) => {
   try {
-    const subscriptions = await Subscription.find(); // Restrict this in production
+    const subscriptions = await Subscription.find(); 
     res.status(200).json({
       success: true,
+      message: "All subscriptions retrieved successfully",
       data: subscriptions,
     });
   } catch (error) {
@@ -58,6 +60,33 @@ export const getSubscriptionById = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getSubscriptionBySubscriptionId = async (req, res, next) => {
+  try {
+    const { subscriptionId, userId } = req.params;
+
+    const subscription = await Subscription.findById(subscriptionId);
+
+    if (!subscription) {
+      return res.status(404).json({
+        success: false,
+        data:{},
+        message: "Subscription not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: subscription, 
+      message:"akssskkss"   // <-- Return the subscription data
+    });
+    
+  } catch (error) {
+    console.error("Error fetching subscription by ID:", error);
+    next(error);
+  }
+};
+
 
 export const deleteSubscription = async (req, res, next) => {
   try {

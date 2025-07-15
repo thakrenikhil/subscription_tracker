@@ -5,6 +5,7 @@ import {
   getAllSubscriptions,
   getSubscriptionById,
   deleteSubscription,
+  getSubscriptionBySubscriptionId
 } from "../controllers/subscription.controller.js";
 
 const subscriptionRouter = Router();
@@ -12,6 +13,7 @@ const subscriptionRouter = Router();
 subscriptionRouter.get("/", getAllSubscriptions);
 
 subscriptionRouter.get("/:id", authorize, getSubscriptionById);
+subscriptionRouter.get("/:userId/:subscriptionId", authorize, getSubscriptionBySubscriptionId);
 subscriptionRouter.post("/", authorize, createSubscription);
 subscriptionRouter.post("/:id", (req, res) => {
   res.json({

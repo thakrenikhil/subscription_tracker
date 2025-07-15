@@ -14,6 +14,12 @@ const subscriptionSchema = new mongoose.Schema(
       required: [true, "Price is required"],
       min: 0,
     },
+    description: {
+      type: String,
+      required: false,
+      trim: true,
+      maxlength: 500,
+    },
     currency: {
       type: String,
       required: [true, "Currency is required"],
@@ -22,8 +28,8 @@ const subscriptionSchema = new mongoose.Schema(
     },
     frequency: {
       type: String,
-      // required: [true, 'Frequency is required'],
-      enum: ["daily", "weekly", "monthly", "yearly"],
+      required: [true, "Frequency is required"],
+      enum: ["Daily", "Weekly", "Monthly", "Yearly"],
     },
     category: {
       type: String,
@@ -37,6 +43,7 @@ const subscriptionSchema = new mongoose.Schema(
         "Education",
         "Health",
         "Lifestyle",
+        "Other"
       ],
     },
     status: {
@@ -55,25 +62,32 @@ const subscriptionSchema = new mongoose.Schema(
       },
     },
     renewdate: {
-        type: Date,
-        validate: {
-          validator: function (value) {
-            return value >= this.startDate;
-          },
-          message: "Renewal date must be after the start date",
+      type: Date,
+      validate: {
+        validator: function (value) {
+          return value >= this.startDate;
         },
+        message: "Renewal date must be after the start date",
       },
-      paymentMethod: {
-        type: String,
-        trim: true,
-        default: "Not specified",
+    },
+    paymentMethod: {
+      type: String,
+      trim: true,
+      default: "Not specified",
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "User is required"],
+      index: true,
+    },
+    trialPeriod: {
+      type: {
+        active: { type: Boolean, default: false },
+        durationDays: { type: Number, default: 0 },
       },
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: [true, "User is required"],
-        index: true,
-      },
+      default: { active: false, durationDays: 0 },
+    },
   },
   { timestamps: true }
 );
@@ -81,13 +95,13 @@ const subscriptionSchema = new mongoose.Schema(
 subscriptionSchema.pre("save", function (next) {
   if (!this.renewdate) {
     this.renewdate = new Date(this.startDate);
-    if (this.frequency === "daily") {
+    if (this.frequency === "Daily") {
       this.renewdate.setDate(this.renewdate.getDate() + 1);
-    } else if (this.frequency === "weekly") {
+    } else if (this.frequency === "Weekly") {
       this.renewdate.setDate(this.renewdate.getDate() + 7);
-    } else if (this.frequency === "monthly") {
+    } else if (this.frequency === "Monthly") {
       this.renewdate.setMonth(this.renewdate.getMonth() + 1);
-    } else if (this.frequency === "yearly") {
+    } else if (this.frequency === "Yearly") {
       this.renewdate.setFullYear(this.renewdate.getFullYear() + 1);
     }
   }

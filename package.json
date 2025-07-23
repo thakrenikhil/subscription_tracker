@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build":"node app.js",
+    "build": "node app.js",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
@@ -22,7 +22,8 @@
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.2",
     "morgan": "~1.9.1",
-    "nodemailer": "^7.0.5"
+    "nodemailer": "^7.0.5",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",

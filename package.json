@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build":"node app.js",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
